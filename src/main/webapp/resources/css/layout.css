@@ -1,0 +1,49 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	font-family: verdana, arial;
+	font-size: 11px;
+} /* Faz todo conteúdo centralizar - PRO IE */
+#geral {
+	margin: 0 0px; /* Faz o layout GERAL centralizar */
+	text-align: left; /* Faz o texto ficar alinhado a esquerda */
+}
+
+div#menu {
+	width: 100%;
+	/* Faz os divs DIRETA e ESQUERDA ficarem com a largura de 150px */
+}
+
+div#meio {
+	min-height: 400px;
+	margin: 0 auto; /* Define uma margem lateral para o div#meio */
+}
+
+div#infobox {
+	/* height: 80px; */
+	width: 300px;
+	margin: 0 auto;
+	padding: 0px;
+	background-color: #900000;
+	-moz-border-radius: 4px;
+	text-align: center;
+	color: white;
+}
+
+div#cabecalho {
+	background-image: url("/transtms-web/resources/img/logo2.png") ;
+	background-repeat:no-repeat;
+	background-color: #CCCCCC;
+	height: 100px;
+}
+
+div#rodape {
+	height: 50px;
+} /* Define uma altura pros divs #cabecalho e #rodape */
+#rodape {
+	clear: both;
+	color: white;
+	text-align: center;
+}
+	/* Faz o Rodapé ignorar os floats das colunas, ficando sempre abaixo delas */

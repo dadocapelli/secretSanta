@@ -1,0 +1,58 @@
+.gridDadosBancarios label {
+	padding-left: 1px;
+	padding-right: 1px;
+	margin-right: 1px;
+	
+}
+
+
+
+.gridDadosBancarios .contaCorrenteFields .contacorrente input.contatxt {
+	width:100px;
+	text-align: right;
+	font-weight: bold;
+}
+
+.gridDadosBancarios .contaCorrenteFields .contacorrente input.digitocontatxt {
+	width:50px;
+	text-align: left;
+	font-weight: bold;
+}
+
+.gridDadosBancarios .nomeBancoFields {
+	width: 300px;
+	border: none;
+}
+
+.dualField .label {
+	width:60px;
+}
+
+.dualField .label label {
+	padding-right: 2px;
+}
+
+.dualField .corpo {
+	width:60px;
+}
+
+.dualField .corpo input {
+	width:100%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.dualField .traco {
+	width: 15px;
+	text-align: center;
+}
+
+.dualField .digito {
+	width: 20px;
+}
+.dualField .digito input {
+	text-align: left;
+	font-weight: bold;
+}
+
+

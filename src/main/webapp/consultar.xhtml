@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/resources/template/template.xhtml">
+	<ui:define name="title">..:: Consulta Sorteio - SecretSanta </ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<rich:panel id="panelResultado" header="Amigo Secreto 2012" >
+				<rich:messages ajaxRendered="true" globalOnly="true" />
+
+				<h:panelGrid id="parte1" columns="2" rendered="#{not sorteioController.next}">
+
+					<h:outputText value="Código Pessoal" />
+					<h:panelGroup>
+						<h:inputText id="codPessoal"
+							value="#{sorteioController.codigoPessoal}" required="true"
+							requiredMessage="Necessário preencher o campo." />
+						<rich:message for="codPessoal" ajaxRendered="true" />
+					</h:panelGroup>
+
+					<a4j:commandButton id="pesquisa" value="Pesquisar" render="panelResultado"
+						action="#{sorteioController.pesquisar()}"></a4j:commandButton>
+					<rich:message for="pesquisa" ajaxRendered="true" />
+
+				</h:panelGrid>
+
+				<h:panelGrid id="parte2" rendered="#{sorteioController.next}">
+					<h:panelGrid>
+
+						<h:panelGroup>
+							<h:outputText value="Seu nome é " />
+							<h:outputText id="meuNome"
+								value="#{sorteioController.resultado.nome.toUpperCase()}" style="FONT-WEIGHT: bold;"/>
+							<h:outputText value=" ?" />
+							<rich:message for="meuNome" ajaxRendered="true" />
+						</h:panelGroup>
+
+						<br />
+						<br />
+
+						<h:outputText
+							value="Se sim, NÃO DEIXE NINGUÉM por perto quando clicar no botão 'SIM' ." />
+
+						<h:outputText
+							value="GRAVE QUEM VOCÊ TIROU, POIS NÃO CONSEGUIRÁ REPETIR A OPERAÇÃO." />
+
+						<br />
+					</h:panelGrid>
+
+					<h:panelGrid columns="3">
+
+						<a4j:commandButton value="SIM, Mostar meu Amigo Secreto."
+							oncomplete="#{rich:component('popupAmigo')}.show();return false;"
+							render="pnlSecreto" ></a4j:commandButton>
+
+						<a4j:commandButton value="NÃO sou eu! CANCELAR."
+							action="#{sorteioController.limparCampos()}"
+							render="pnlSecreto,panelResultado"></a4j:commandButton>
+
+					</h:panelGrid>
+
+
+				</h:panelGrid>
+
+			</rich:panel>
+
+			<br />
+
+		</h:form>
+
+		<rich:popupPanel id="popupAmigo" modal="true" autosized="true">
+			<f:facet name="header">
+				<h:outputText value="Meu Amigo Secreto" />
+			</f:facet>
+
+			<h:form>
+			<rich:panel id="pnlSecreto">
+				<h:panelGrid>
+					<h:panelGroup>
+						<h:outputText value="Meu amigo secreto é: " />
+						<h:outputText value="#{sorteioController.resultado.amigoSecreto.toUpperCase()}" style="FONT-WEIGHT: bold;"/>
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<br />
+						<br />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="Valores a partir de R$70,00." />
+						<br />
+						<h:outputText
+							value="Para ver os tamanhos e medidas do seu amigo, clique no link  " />
+							<a href="http://goo.gl/XPGNR" target="_blank" >http://goo.gl/XPGNR</a>
+					</h:panelGroup>
+
+				</h:panelGrid>
+
+				<br />
+
+				<a4j:commandButton value="Fechar"
+					action="#{sorteioController.visualizado()}"
+					oncomplete="#{rich:component('popupAmigo')}.hide();return false;"
+					render="panelResultado,parte1,parte2" />
+
+			</rich:panel>
+			
+			</h:form>
+		</rich:popupPanel>
+		
+	</ui:define>
+</ui:composition>

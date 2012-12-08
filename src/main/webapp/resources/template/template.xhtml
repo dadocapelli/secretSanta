@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Language" content="pt-br" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="transporte noedge tms" />
+	<meta name="robots" content="index,follow" />
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/resources/img/favicon.png"
+		rel="shortcut icon"></link>
+	<title><ui:insert name="title">..:: SecretSanta</ui:insert></title>
+	<link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/layout.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/default.css" />
+
+</h:head>
+<h:body>
+	<div id="geral">
+		<div id="cabecalho">
+		</div>
+		<div id="menu">
+			<h:form>
+				<rich:toolbar style="width: 100%" height="25">
+					<rich:toolbarGroup location="left">
+					</rich:toolbarGroup>
+				</rich:toolbar>
+			</h:form>
+		</div>
+
+		<div id="meio">
+			<br />
+			<ui:insert name="content">
+				Content here
+			</ui:insert>
+		</div>
+		<br />
+		<div id="rodape">
+			<rich:toolbar style="height: 30px">
+			</rich:toolbar>
+		</div>
+	</div>
+</h:body>
+</html>

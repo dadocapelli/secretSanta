@@ -21,8 +21,6 @@ import br.com.capelli.secretsanta.exception.DAOException;
 /**
  * Implementação GenericDAOPattern para o JPA
  * 
- * @author cristiano
- * 
  * @param <T>
  *            a Classe
  * @param <PK>

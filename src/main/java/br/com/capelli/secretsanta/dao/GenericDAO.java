@@ -12,8 +12,6 @@ import br.com.capelli.secretsanta.exception.DAOException;
  * 
  * http://www.ibm.com/developerworks/java/library/j-genericdao/index.html
  * 
- * @author Cristiano Andrade
- *
  * @param <T>
  * @param <PK>
  */

@@ -8,20 +8,6 @@ import org.apache.log4j.Logger;
 import br.com.capelli.secretsanta.dao.GenericDAO;
 import br.com.capelli.secretsanta.exception.DAOException;
 
-/**
- * Classe base para todos os controllers
- * 
- * @author cristiano
- * 
- * @param <T>
- *            Entidade que o Controller ira gerenciar
- * @param <M>
- *            Manager da entidade
- * @param <PK>
- *            Chave primária da entidade
- * @version 1.00
- * @since 1.00
- */
 public abstract class AbstractController<T, DAO extends GenericDAO<T, PK>, PK extends Serializable> {
 
 	protected Logger logger = Logger.getLogger(this.getClass());

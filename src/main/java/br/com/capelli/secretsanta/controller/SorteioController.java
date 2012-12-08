@@ -16,12 +16,11 @@ import br.com.capelli.secretsanta.manager.SorteioManager;
 import br.com.capelli.secretsanta.modelo.Resultado;
 import br.com.capelli.secretsanta.modelo.Usuario;
 import br.com.capelli.secretsanta.util.LoggedIn;
+import br.com.capelli.secretsanta.util.Util;
 
 @Named("sorteioController")
 @SessionScoped
 public class SorteioController implements Serializable {
-	// extends AbstractController<Sorteio, SorteioDAO, Long> implements
-	// Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(SorteioController.class);
@@ -38,22 +37,11 @@ public class SorteioController implements Serializable {
 	private String codigoPessoal = null;
 	private boolean next = Boolean.FALSE;;
 
-	// public SorteioController() {
-	// }
-	//
-	// @Inject
-	// public SorteioController(SorteioDAO dao) {
-	// this.dao = dao;
-	// }
-
-	// @Override
-	// public void filtrar() {
-	//
-	// }
-
 	public void pesquisar() {
 		try {
-			resultado = sorteioManager.obtemResultado(codigoPessoal);
+			String codigoLimpo = Util.retiraCaracteres(codigoPessoal.replace(" ", ""));
+			
+			resultado = sorteioManager.obtemResultado(codigoLimpo);
 			if (resultado == null) {
 				FacesContext
 						.getCurrentInstance()

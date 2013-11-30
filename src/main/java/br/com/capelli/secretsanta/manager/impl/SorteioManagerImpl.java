@@ -61,9 +61,9 @@ public class SorteioManagerImpl extends AbstractManager<Sorteio, Long>
 			
 			sorteio = new Sorteio();
 			sorteio.setUsuario(usuario);
-			sorteio.setNome("Teste");
-			sorteio.setCodigo(new Date().toString());
-			sorteio.setDescricao("Testando");
+			sorteio.setNome("Natal 2012");
+			sorteio.setCodigo("SECRET2012");
+			sorteio.setDescricao("Amigo Secreto 2012");
 			sorteioDAO.save(sorteio);
 
 			boolean sucesso = false;

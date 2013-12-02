@@ -2,12 +2,14 @@ package br.com.capelli.secretsanta.modelo;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,10 +22,12 @@ public class Resultado implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nome;
-	private String codigoPessoal;
-	private String email;
-	private String amigoSecreto;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_eu")
+	private Amigo eu;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_meu_amigo_secreto")
+	private Amigo meuAmigoSecreto;
 	private Boolean visualizado;
 
 	@ManyToOne
@@ -34,52 +38,12 @@ public class Resultado implements Serializable {
 		this.visualizado = Boolean.FALSE;
 	}
 
-	public Resultado(String nome, String codigoPessoal, String email,
-			String amigoSecreto) {
-		this.nome = nome;
-		this.codigoPessoal = codigoPessoal;
-		this.email = email;
-		this.amigoSecreto = amigoSecreto;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getAmigoSecreto() {
-		return amigoSecreto;
-	}
-
-	public void setAmigoSecreto(String amigoSecreto) {
-		this.amigoSecreto = amigoSecreto;
-	}
-
-	public String getCodigoPessoal() {
-		return codigoPessoal;
-	}
-
-	public void setCodigoPessoal(String codigoPessoal) {
-		this.codigoPessoal = codigoPessoal;
 	}
 
 	public Boolean getVisualizado() {
@@ -96,6 +60,27 @@ public class Resultado implements Serializable {
 
 	public void setSorteio(Sorteio sorteio) {
 		this.sorteio = sorteio;
+	}
+
+	@Override
+	public String toString() {
+		return this.eu.getNome() + " tirou " + this.meuAmigoSecreto.getNome();
+	}
+
+	public Amigo getEu() {
+		return eu;
+	}
+
+	public void setEu(Amigo eu) {
+		this.eu = eu;
+	}
+
+	public Amigo getMeuAmigoSecreto() {
+		return meuAmigoSecreto;
+	}
+
+	public void setMeuAmigoSecreto(Amigo meuAmigoSecreto) {
+		this.meuAmigoSecreto = meuAmigoSecreto;
 	}
 
 }

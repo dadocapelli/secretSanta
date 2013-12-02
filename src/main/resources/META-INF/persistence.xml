@@ -14,6 +14,7 @@
 		<class>br.com.capelli.secretsanta.modelo.Resultado</class>
 		<class>br.com.capelli.secretsanta.modelo.Sorteio</class>
 		<class>br.com.capelli.secretsanta.modelo.Usuario</class>
+		<class>br.com.capelli.secretsanta.modelo.Caracteristica</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

@@ -8,6 +8,6 @@
 </head>
 <body>
 	Redirecting...
-	<% response.sendRedirect("pages/sorteio/criarSorteio.jsf"); %>
+	<% response.sendRedirect("pages/cadastro/listAmigo.jsf"); %>
 </body>
 </html>

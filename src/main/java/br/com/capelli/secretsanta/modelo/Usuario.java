@@ -1,8 +1,10 @@
 package br.com.capelli.secretsanta.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,7 +31,7 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="login", unique=true)
+	@Column(name = "login", unique = true)
 	private String login;
 	private String senha;
 	@Column(name = "nome")
@@ -50,7 +52,7 @@ public class Usuario implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
 	private Set<Sorteio> sorteios;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
 	private Set<Amigo> amigos;
 
@@ -123,10 +125,16 @@ public class Usuario implements Serializable {
 	}
 
 	public Set<Amigo> getAmigos() {
-		if(amigos == null){
+		if (amigos == null) {
 			amigos = new HashSet<Amigo>();
 		}
 		return amigos;
+	}
+
+	public List<Amigo> getAmigosList() {
+		List<Amigo> amigosList = new ArrayList<Amigo>();
+		amigosList.addAll(amigos);
+		return amigosList;
 	}
 
 	public void setAmigos(Set<Amigo> amigos) {

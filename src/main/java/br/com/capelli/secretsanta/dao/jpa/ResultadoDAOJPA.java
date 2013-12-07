@@ -39,7 +39,7 @@ public class ResultadoDAOJPA extends GenericDAOJPA<Resultado, Long> implements
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
 			predicates.add(criteriaBuilder.and(criteriaBuilder.equal(
-					entity.get("codigoPessoal"), codigoPessoal)));
+					entity.get("eu").get("codigo"), codigoPessoal)));
 
 			criteriaQuery.select(entity).where(
 					predicates.toArray(new Predicate[0]));

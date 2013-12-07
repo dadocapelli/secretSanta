@@ -33,10 +33,6 @@ public class Amigo implements Serializable {
 	@JoinColumn(name = "fk_id_caracteristica")
 	private Caracteristica caracteristica;
 
-	// @ElementCollection(fetch = FetchType.EAGER)
-	// @CollectionTable(name = "amigos_proibidos")
-	// private Set<Amigo> amigosProibidos;
-
 	@Transient
 	private List<Amigo> amigosProibidos;
 

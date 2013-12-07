@@ -13,7 +13,7 @@
 			<rich:panel header="Dados Amigo" id="panelSorteio">
 				<rich:messages ajaxRendered="true" globalOnly="true" />
 
-				<h:panelGrid>
+				<h:panelGrid columns="2">
 
 					<h:outputText value="Nome: " />
 					<h:inputText value="#{amigoController.amigoSelected.nome}" />
@@ -29,9 +29,13 @@
 					<h:inputText
 						value="#{amigoController.amigoSelected.caracteristica.sapato}" />
 
-					<h:outputText value="Tamanho roupa: " />
+					<h:outputText value="Tamanho calça: " />
 					<h:inputText
-						value="#{amigoController.amigoSelected.caracteristica.roupa}" />
+						value="#{amigoController.amigoSelected.caracteristica.calca}" />
+
+					<h:outputText value="Tamanho camisa: " />
+					<h:inputText
+						value="#{amigoController.amigoSelected.caracteristica.camisa}" />
 
 				</h:panelGrid>
 

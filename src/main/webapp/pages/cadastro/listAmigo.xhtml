@@ -12,10 +12,18 @@
 		<h:form>
 			<rich:panel header="Lista de Amigos" id="panelAmigos">
 				<rich:messages ajaxRendered="true" globalOnly="true" />
-				<h:panelGrid>
+
+				<h:panelGrid columns="2">
 					<h:commandButton id="novoAmigo" value="Novo Amigo"
 						action="#{amigoController.novo()}"></h:commandButton>
+
+					<h:panelGroup>
+						<h:commandButton id="sorteio" value="Sortear"
+							action="#{sorteioController.gerarSorteio()}"></h:commandButton>
+						<rich:message for="sorteio" ajaxRendered="true" />
+					</h:panelGroup>
 				</h:panelGrid>
+
 
 				<rich:dataTable id="dataAmigo" value="#{amigoController.amigos}"
 					var="amigo" rows="10">
@@ -40,7 +48,7 @@
 							<h:outputText value="Medidas" />
 						</f:facet>
 						<h:commandLink action="#{amigoController.edit()}"
-							value="#{amigo.caracteristica}" >
+							value="#{amigo.caracteristica}">
 							<f:setPropertyActionListener
 								target="#{amigoController.amigoSelected}" value="#{amigo}" />
 						</h:commandLink>

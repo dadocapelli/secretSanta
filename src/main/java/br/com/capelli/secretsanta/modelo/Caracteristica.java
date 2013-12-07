@@ -19,12 +19,13 @@ public class Caracteristica implements Serializable {
 	private Long id;
 	private String idade;
 	private String sapato;
-	private String roupa;
+	private String calca;
+	private String camisa;
 
 	@Override
 	public String toString() {
 		return "Idade: " + this.idade + " - Sapato: " + this.sapato
-				+ " Roupa: " + this.roupa;
+				+ " - Calça: " + this.calca + " - Camisa: " + this.camisa;
 	}
 
 	public Long getId() {
@@ -51,12 +52,20 @@ public class Caracteristica implements Serializable {
 		this.sapato = sapato;
 	}
 
-	public String getRoupa() {
-		return roupa;
+	public String getCalca() {
+		return calca;
 	}
 
-	public void setRoupa(String roupa) {
-		this.roupa = roupa;
+	public void setCalca(String calca) {
+		this.calca = calca;
+	}
+
+	public String getCamisa() {
+		return camisa;
+	}
+
+	public void setCamisa(String camisa) {
+		this.camisa = camisa;
 	}
 
 }

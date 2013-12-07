@@ -10,10 +10,11 @@
 
 	<ui:define name="content">
 		<h:form>
-			<rich:panel id="panelResultado" header="Amigo Secreto 2012" >
+			<rich:panel id="panelResultado" header="Amigo Secreto 2012">
 				<rich:messages ajaxRendered="true" globalOnly="true" />
 
-				<h:panelGrid id="parte1" columns="2" rendered="#{not sorteioController.next}">
+				<h:panelGrid id="parte1" columns="2"
+					rendered="#{not sorteioController.next}">
 
 					<h:outputText value="Código Pessoal" />
 					<h:panelGroup>
@@ -23,8 +24,8 @@
 						<rich:message for="codPessoal" ajaxRendered="true" />
 					</h:panelGroup>
 
-					<a4j:commandButton id="pesquisa" value="Pesquisar" render="panelResultado"
-						action="#{sorteioController.pesquisar()}"></a4j:commandButton>
+					<a4j:commandButton id="pesquisa" value="Pesquisar"
+						render="panelResultado" action="#{sorteioController.pesquisar()}"></a4j:commandButton>
 					<rich:message for="pesquisa" ajaxRendered="true" />
 
 				</h:panelGrid>
@@ -35,7 +36,8 @@
 						<h:panelGroup>
 							<h:outputText value="Seu nome é " />
 							<h:outputText id="meuNome"
-								value="#{sorteioController.resultado.nome.toUpperCase()}" style="FONT-WEIGHT: bold;"/>
+								value="#{sorteioController.resultado.eu.nome.toUpperCase()}"
+								style="FONT-WEIGHT: bold;" />
 							<h:outputText value=" ?" />
 							<rich:message for="meuNome" ajaxRendered="true" />
 						</h:panelGroup>
@@ -47,7 +49,7 @@
 							value="Se sim, NÃO DEIXE NINGUÉM por perto quando clicar no botão 'SIM' ." />
 
 						<h:outputText
-							value="GRAVE QUEM VOCÊ TIROU, POIS NÃO CONSEGUIRÁ REPETIR A OPERAÇÃO." />
+							value="ANTES DE CLICAR EM 'SIM', PEGUE UM PAPEL E UMA CANETA PARA ANOTAR QUEM VOCÊ TIROU E AS MEDIDAS DA PESSOA." />
 
 						<br />
 					</h:panelGrid>
@@ -56,7 +58,7 @@
 
 						<a4j:commandButton value="SIM, Mostar meu Amigo Secreto."
 							oncomplete="#{rich:component('popupAmigo')}.show();return false;"
-							render="pnlSecreto" ></a4j:commandButton>
+							render="pnlSecreto"></a4j:commandButton>
 
 						<a4j:commandButton value="NÃO sou eu! CANCELAR."
 							action="#{sorteioController.limparCampos()}"
@@ -79,39 +81,47 @@
 			</f:facet>
 
 			<h:form>
-			<rich:panel id="pnlSecreto">
-				<h:panelGrid>
-					<h:panelGroup>
-						<h:outputText value="Meu amigo secreto é: " />
-						<h:outputText value="#{sorteioController.resultado.amigoSecreto.toUpperCase()}" style="FONT-WEIGHT: bold;"/>
-					</h:panelGroup>
+				<rich:panel id="pnlSecreto">
+					<h:panelGrid>
+						<h:panelGroup>
+							<h:outputText value="Meu amigo secreto é: " />
+							<h:outputText
+								value="#{sorteioController.resultado.meuAmigoSecreto.nome.toUpperCase()}"
+								style="FONT-WEIGHT: bold;" />
+						</h:panelGroup>
 
-					<h:panelGroup>
-						<br />
-						<br />
-					</h:panelGroup>
+						<h:panelGroup>
+							<br />
+							<h:outputText value="As medidas do seu amigo são: " />
+							<br />
+							<h:outputText
+								value="#{sorteioController.resultado.meuAmigoSecreto.caracteristica}" />
+						</h:panelGroup>
 
-					<h:panelGroup>
-						<h:outputText value="O valor do presente é de R$70,00 a R$90,00." />
-						<br />
-						<h:outputText
-							value="Para ver os tamanhos e medidas do seu amigo, clique no link  " />
-							<a href="http://goo.gl/XPGNR" target="_blank" >http://goo.gl/XPGNR</a>
-					</h:panelGroup>
+						<h:panelGroup>
+							<br />
+							<br />
+						</h:panelGroup>
 
-				</h:panelGrid>
+						<h:panelGroup>
+							<h:outputText
+								value="O valor do presente é de R$80,00 a R$100,00." />
+							<br />
+						</h:panelGroup>
 
-				<br />
+					</h:panelGrid>
 
-				<a4j:commandButton value="Fechar"
-					action="#{sorteioController.visualizado()}"
-					oncomplete="#{rich:component('popupAmigo')}.hide();return false;"
-					render="panelResultado,parte1,parte2" />
+					<br />
 
-			</rich:panel>
-			
+					<a4j:commandButton value="Fechar"
+						action="#{sorteioController.visualizado()}"
+						oncomplete="#{rich:component('popupAmigo')}.hide();return false;"
+						render="panelResultado,parte1,parte2" />
+
+				</rich:panel>
+
 			</h:form>
 		</rich:popupPanel>
-		
+
 	</ui:define>
 </ui:composition>

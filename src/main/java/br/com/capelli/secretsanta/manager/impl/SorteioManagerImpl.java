@@ -71,10 +71,9 @@ public class SorteioManagerImpl extends AbstractManager<Sorteio, Long>
 			int tentativas = 0;
 			while (!sucesso && tentativas < 5) {
 				tentativas++;
-				// sucesso = sortear(sorteio, usuario);
+				sucesso = SorteioHelper.sortear(sorteio, usuario);
 				logger.info("#### RESULTADO tentativa " + tentativas + " - "
 						+ sucesso);
-
 			}
 
 			if (sucesso) {
@@ -94,96 +93,5 @@ public class SorteioManagerImpl extends AbstractManager<Sorteio, Long>
 		logger.info("[END] gerarSorteio ");
 
 	}
-
-	// public boolean sortear(Sorteio sorteio, Usuario usuario)
-	// throws ManagementException {
-	// try {
-	//
-	// logger.info("[BEGIN] sortear");
-	// Resultado resultado;
-	//
-	// List<Amigo> amigosOriginal = new ArrayList<Amigo>();
-	// amigosOriginal.addAll(usuario.getAmigos());
-	//
-	// List<Amigo> amigosParaSortear = new ArrayList<Amigo>();
-	// amigosParaSortear.addAll(usuario.getAmigos());
-	//
-	// Collections.shuffle(amigosOriginal);
-	//
-	// // List<Resultado> resultados = new ArrayList<Resultado>();
-	//
-	// int sizeOriginal = amigosOriginal.size();
-	// int tentativas = 0;
-	//
-	// Amigo amigo = amigosOriginal.get(0);
-	// while (!amigosOriginal.isEmpty()
-	// && tentativas <= (sizeOriginal * 3)) {
-	// tentativas++;
-	// logger.info("while tentativas: " + tentativas
-	// + " amigosOriginal.size: " + amigosOriginal.size());
-	//
-	// for (int i = 0; i <= amigosOriginal.size(); i++) {
-	// logger.info("while tentativas: " + tentativas
-	// + " amigosOriginal.size: " + amigosOriginal.size()
-	// + " i= " + i);
-	//
-	// logger.info("Sortear amigo de: " + amigo.getNome());
-	//
-	// Amigo amigoSorteado = amigoSorteado(amigosParaSortear);
-	// logger.info("Nome sorteado: " + amigoSorteado.getNome());
-	//
-	// if (validandoResultado(amigo, amigoSorteado)) {
-	//
-	// logger.info("SORTEADO");
-	// resultado = new Resultado();
-	// resultado.setNome(amigo.getNome());
-	// resultado.setCodigoPessoal(amigo.getCodigo());
-	// resultado.setAmigoSecreto(amigoSorteado.getNome());
-	// resultado.setSorteio(sorteio);
-	//
-	// // resultados.add(resultado);
-	//
-	// amigoSorteado.getAmigosProibidos().add(amigo);
-	// sorteio.getResultados().add(resultado);
-	//
-	// amigosParaSortear.remove(amigoSorteado);
-	// amigosOriginal.remove(i);
-	// }
-	//
-	// // O amigo Sorteado é o proximo a escolher
-	// amigo = amigoSorteado;
-	//
-	// // sair do for e recomeçar
-	// if (amigosOriginal.size() == i + 1) {
-	// i++;
-	// }
-	//
-	// logger.info("### ");
-	// }
-	//
-	// // TODO update Sorteio para salvar resultado
-	// // resultadoDAO.save(resultado);
-	// // sorteio.getResultados().addAll(resultados);
-	// }
-	//
-	// return amigosOriginal.isEmpty();
-	//
-	// } catch (Exception e) {
-	// throw new ManagementException("Erro", e);
-	// } finally {
-	// logger.info("[END] sortear");
-	// }
-	// }
-	//
-	// private Amigo amigoSorteado(List<Amigo> amigosParaSortear) {
-	// double r = Math.random();
-	// int s1 = ((int) (r * 1000) % amigosParaSortear.size());
-	// return amigosParaSortear.get(s1);
-	// }
-	//
-	// private boolean validandoResultado(Amigo amigo, Amigo amigoSorteado) {
-	// return (!amigo.equals(amigoSorteado) && !amigo.getAmigosProibidos()
-	// .contains(amigoSorteado));
-	// }
 
 }

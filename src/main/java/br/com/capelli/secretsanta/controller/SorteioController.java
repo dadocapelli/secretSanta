@@ -39,7 +39,7 @@ public class SorteioController implements Serializable {
 
 	public void pesquisar() {
 		try {
-			String codigoLimpo = Util.retiraCaracteres(codigoPessoal.replace(" ", ""));
+			String codigoLimpo = Util.retiraCaracteres(codigoPessoal.replace(" ", "")).toLowerCase();
 			
 			resultado = sorteioManager.obtemResultado(codigoLimpo);
 			if (resultado == null) {

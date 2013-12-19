@@ -57,6 +57,7 @@
 					<h:panelGrid columns="3">
 
 						<a4j:commandButton value="SIM, Mostar meu Amigo Secreto."
+							action="#{sorteioController.visualizado()}"
 							oncomplete="#{rich:component('popupAmigo')}.show();return false;"
 							render="pnlSecreto"></a4j:commandButton>
 
@@ -114,7 +115,7 @@
 					<br />
 
 					<a4j:commandButton value="Fechar"
-						action="#{sorteioController.visualizado()}"
+						action="#{sorteioController.limparCampos()}"
 						oncomplete="#{rich:component('popupAmigo')}.hide();return false;"
 						render="panelResultado,parte1,parte2" />
 

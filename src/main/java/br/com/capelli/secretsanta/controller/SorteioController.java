@@ -39,8 +39,9 @@ public class SorteioController implements Serializable {
 
 	public void pesquisar() {
 		try {
-			String codigoLimpo = Util.retiraCaracteres(codigoPessoal.replace(" ", "")).toLowerCase();
-			
+			String codigoLimpo = Util.retiraCaracteres(
+					codigoPessoal.replace(" ", "")).toLowerCase();
+
 			resultado = sorteioManager.obtemResultado(codigoLimpo);
 			if (resultado == null) {
 				FacesContext
@@ -78,15 +79,12 @@ public class SorteioController implements Serializable {
 	}
 
 	public void visualizado() {
-
 		try {
 			resultado.setVisualizado(Boolean.TRUE);
 			resultadoDAO.update(resultado);
 		} catch (DAOException e) {
 			logger.error("NAO ATUALIZOU O RESULTADO.", e);
 		}
-
-		limparCampos();
 	}
 
 	public void limparCampos() {

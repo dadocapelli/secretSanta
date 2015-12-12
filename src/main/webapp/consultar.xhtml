@@ -3,126 +3,114 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/template/template.xhtml">
 	<ui:define name="title">..:: Consulta Sorteio - SecretSanta </ui:define>
 
 	<ui:define name="content">
-		<h:form>
-			<rich:panel id="panelResultado" header="Amigo Secreto">
-				<rich:messages ajaxRendered="true" globalOnly="true" />
+		<p:panel id="panelResultado" header="Amigo Secreto">
 
-				<h:panelGrid id="parte1" columns="2"
-					rendered="#{not sorteioController.next}">
+			<h:panelGrid id="parte1" columns="2"
+				rendered="#{not sorteioController.next}">
 
-					<h:outputText value="Código Pessoal" />
+				<h:outputText value="Código Pessoal" />
+				<h:panelGroup>
+					<h:inputText id="codPessoal"
+						value="#{sorteioController.codigoPessoal}" required="true"
+						requiredMessage="Necessário preencher o campo." />
+				</h:panelGroup>
+
+				<p:commandButton id="pesquisa" value="Pesquisar"
+					update=":form:panelResultado"
+					action="#{sorteioController.pesquisar()}"></p:commandButton>
+
+			</h:panelGrid>
+
+			<h:panelGrid id="parte2" rendered="#{sorteioController.next}">
+				<h:panelGrid>
+
 					<h:panelGroup>
-						<h:inputText id="codPessoal"
-							value="#{sorteioController.codigoPessoal}" required="true"
-							requiredMessage="Necessário preencher o campo." />
-						<rich:message for="codPessoal" ajaxRendered="true" />
+						<h:outputText value="Seu nome é " />
+						<h:outputText id="meuNome"
+							value="#{sorteioController.resultado.eu.nome.toUpperCase()}"
+							style="FONT-WEIGHT: bold;" />
+						<h:outputText value=" ?" />
 					</h:panelGroup>
 
-					<a4j:commandButton id="pesquisa" value="Pesquisar"
-						render="panelResultado" action="#{sorteioController.pesquisar()}"></a4j:commandButton>
-					<rich:message for="pesquisa" ajaxRendered="true" />
-
-				</h:panelGrid>
-
-				<h:panelGrid id="parte2" rendered="#{sorteioController.next}">
-					<h:panelGrid>
-
-						<h:panelGroup>
-							<h:outputText value="Seu nome é " />
-							<h:outputText id="meuNome"
-								value="#{sorteioController.resultado.eu.nome.toUpperCase()}"
-								style="FONT-WEIGHT: bold;" />
-							<h:outputText value=" ?" />
-							<rich:message for="meuNome" ajaxRendered="true" />
-						</h:panelGroup>
-
-						<br />
-						<br />
-
-						<h:outputText
-							value="Se sim, NÃO DEIXE NINGUÉM por perto quando clicar no botão 'SIM' ." />
-
-						<h:outputText
-							value="ANTES DE CLICAR EM 'SIM', PEGUE UM PAPEL E UMA CANETA PARA ANOTAR QUEM VOCÊ TIROU E AS MEDIDAS DA PESSOA." />
-
-						<br />
-					</h:panelGrid>
-
-					<h:panelGrid columns="3">
-
-						<a4j:commandButton value="SIM, Mostar meu Amigo Secreto."
-							action="#{sorteioController.visualizado()}"
-							oncomplete="#{rich:component('popupAmigo')}.show();return false;"
-							render="pnlSecreto"></a4j:commandButton>
-
-						<a4j:commandButton value="NÃO sou eu! CANCELAR."
-							action="#{sorteioController.limparCampos()}"
-							render="pnlSecreto,panelResultado"></a4j:commandButton>
-
-					</h:panelGrid>
-
-
-				</h:panelGrid>
-
-			</rich:panel>
-
-			<br />
-
-		</h:form>
-
-		<rich:popupPanel id="popupAmigo" modal="true" autosized="true">
-			<f:facet name="header">
-				<h:outputText value="Meu Amigo Secreto" />
-			</f:facet>
-
-			<h:form>
-				<rich:panel id="pnlSecreto">
-					<h:panelGrid>
-						<h:panelGroup>
-							<h:outputText value="Meu amigo secreto é: " />
-							<h:outputText
-								value="#{sorteioController.resultado.meuAmigoSecreto.nome.toUpperCase()}"
-								style="FONT-WEIGHT: bold;" />
-						</h:panelGroup>
-
-						<h:panelGroup>
-							<br />
-							<h:outputText value="As medidas do seu amigo são: " />
-							<br />
-							<h:outputText
-								value="#{sorteioController.resultado.meuAmigoSecreto.caracteristica}" />
-						</h:panelGroup>
-
-						<h:panelGroup>
-							<br />
-							<br />
-						</h:panelGroup>
-
-						<h:panelGroup>
-							<h:outputText
-								value="O valor do presente é de R$80,00 a R$100,00." />
-							<br />
-						</h:panelGroup>
-
-					</h:panelGrid>
-
+					<br />
 					<br />
 
-					<a4j:commandButton value="Fechar"
+					<h:outputText
+						value="Se sim, NÃO DEIXE NINGUÉM por perto quando clicar no botão 'SIM' ." />
+
+					<h:outputText
+						value="ANTES DE CLICAR EM 'SIM', PEGUE UM PAPEL E UMA CANETA PARA ANOTAR QUEM VOCÊ TIROU E AS MEDIDAS DA PESSOA." />
+
+					<br />
+				</h:panelGrid>
+
+				<h:panelGrid columns="3">
+
+					<p:commandButton value="SIM, Mostar meu Amigo Secreto."
+						action="#{sorteioController.visualizado()}"
+						oncomplete="popupAmigo.show();" update=":form:pnlSecreto">
+					</p:commandButton>
+
+					<p:commandButton value="NÃO sou eu! CANCELAR."
 						action="#{sorteioController.limparCampos()}"
-						oncomplete="#{rich:component('popupAmigo')}.hide();return false;"
-						render="panelResultado,parte1,parte2" />
+						udpate=":form:panelResultado">
+					</p:commandButton>
+				</h:panelGrid>
 
-				</rich:panel>
 
-			</h:form>
-		</rich:popupPanel>
+			</h:panelGrid>
+
+		</p:panel>
+
+		<br />
+
+		<p:dialog id="popupAmigo" header="Meu Amigo Secreto"
+			widgetVar="popupAmigo" modal="true" dynamic="true">
+
+			<p:panel id="pnlSecreto">
+				<h:panelGrid>
+					<h:panelGroup>
+						<h:outputText value="Meu amigo secreto é: " />
+						<h:outputText
+							value="#{sorteioController.resultado.meuAmigoSecreto.nome.toUpperCase()}"
+							style="FONT-WEIGHT: bold;" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<br />
+						<h:outputText value="As medidas do seu amigo são: " />
+						<br />
+						<h:outputText
+							value="#{sorteioController.resultado.meuAmigoSecreto.meuAmigoDados}" />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<br />
+						<br />
+					</h:panelGroup>
+
+					<h:panelGroup>
+						<h:outputText value="O valor do presente é de R$100,00." />
+						<br />
+					</h:panelGroup>
+
+				</h:panelGrid>
+
+				<br />
+
+				<p:commandButton value="Fechar"
+					action="#{sorteioController.limparCampos()}"
+					oncomplete="popupAmigo.hide(); return false;"
+					update=":form:panelResultado" />
+
+			</p:panel>
+
+		</p:dialog>
 
 	</ui:define>
 </ui:composition>

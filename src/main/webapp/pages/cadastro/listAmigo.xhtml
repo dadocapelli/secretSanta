@@ -3,64 +3,65 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/template/template.xhtml">
 	<ui:define name="title">..:: Sorteio - SecretSanta </ui:define>
 
 	<ui:define name="content">
-		<h:form>
-			<rich:panel header="Lista de Amigos" id="panelAmigos">
-				<rich:messages ajaxRendered="true" globalOnly="true" />
+		<p:panel header="Lista de Amigos" id="panelAmigos">
 
-				<h:panelGrid columns="2">
-					<h:commandButton id="novoAmigo" value="Novo Amigo"
-						action="#{amigoController.novo()}"></h:commandButton>
+			<h:panelGrid columns="4">
+				<h:commandButton value="Novo Amigo"
+					action="#{amigoController.novo()}"></h:commandButton>
 
-					<h:panelGroup>
-						<h:commandButton id="sorteio" value="Sortear"
-							action="#{sorteioController.gerarSorteio()}"></h:commandButton>
-						<rich:message for="sorteio" ajaxRendered="true" />
-					</h:panelGroup>
-				</h:panelGrid>
+				<h:panelGroup>
+					<h:commandButton value="Configurar Sorteio"
+						action="#{sorteioController.configurarSorteio()}"></h:commandButton>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:commandButton value="Sortear"
+						action="#{sorteioController.sortear()}"></h:commandButton>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:commandButton value="Enviar Emails"
+						action="#{sorteioController.enviarEmail()}"></h:commandButton>
+				</h:panelGroup>
+			</h:panelGrid>
 
 
-				<rich:dataTable id="dataAmigo" value="#{amigoController.amigos}"
-					var="amigo" rows="10">
-					<f:facet name="footer">
-						<rich:dataScroller id="scrollAmigo" for="dataAmigo" />
-					</f:facet>
+			<p:dataTable id="dataAmigo" value="#{amigoController.amigos}"
+				var="amigo">
 
-					<rich:column>
-						<f:facet name="header">
-							<h:outputText value="Nome" />
-						</f:facet>
+				<p:column headerText="Nome">
 
-						<h:commandLink action="#{amigoController.edit()}"
-							value="#{amigo.nome}">
-							<f:setPropertyActionListener
-								target="#{amigoController.amigoSelected}" value="#{amigo}" />
-						</h:commandLink>
-					</rich:column>
+					<h:commandLink action="#{amigoController.edit()}"
+						value="#{amigo.nome}">
+						<f:setPropertyActionListener
+							target="#{amigoController.amigoSelected}" value="#{amigo}" />
+					</h:commandLink>
+				</p:column>
 
-					<rich:column>
-						<f:facet name="header">
-							<h:outputText value="Medidas" />
-						</f:facet>
-						<h:commandLink action="#{amigoController.edit()}"
-							value="#{amigo.caracteristica}">
-							<f:setPropertyActionListener
-								target="#{amigoController.amigoSelected}" value="#{amigo}" />
-						</h:commandLink>
-					</rich:column>
+				<p:column headerText="Medidas">
+					<h:commandLink action="#{amigoController.edit()}"
+						value="#{amigo.caracteristica}">
+						<f:setPropertyActionListener
+							target="#{amigoController.amigoSelected}" value="#{amigo}" />
+					</h:commandLink>
+				</p:column>
 
-				</rich:dataTable>
+				<p:column headerText="Ativo">
+					<h:commandLink action="#{amigoController.edit()}"
+						value="#{amigo.ativo}">
+						<f:setPropertyActionListener
+							target="#{amigoController.amigoSelected}" value="#{amigo}" />
+					</h:commandLink>
+				</p:column>
 
-			</rich:panel>
 
-			<br />
+			</p:dataTable>
+		</p:panel>
 
-		</h:form>
+		<br />
 
 	</ui:define>
 </ui:composition>

@@ -16,71 +16,73 @@ import javax.persistence.Table;
 @Table(name = "resultado")
 public class Resultado implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_eu")
-	private Amigo eu;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_meu_amigo_secreto")
-	private Amigo meuAmigoSecreto;
-	private Boolean visualizado;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_id_eu")
+    private Participante eu;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_id_meu_amigo_secreto")
+    private Participante meuAmigoSecreto;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_id_sorteio")
-	private Sorteio sorteio;
+    private Boolean visualizado;
 
-	public Resultado() {
-		this.visualizado = Boolean.FALSE;
-	}
+    @ManyToOne
+    @JoinColumn(name = "fk_id_sorteio")
+    private Sorteio sorteio;
 
-	public Long getId() {
-		return id;
-	}
+    public Resultado() {
+        this.visualizado = Boolean.FALSE;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Boolean getVisualizado() {
-		return visualizado;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setVisualizado(Boolean visualizado) {
-		this.visualizado = visualizado;
-	}
+    public Boolean getVisualizado() {
+        return visualizado;
+    }
 
-	public Sorteio getSorteio() {
-		return sorteio;
-	}
+    public void setVisualizado(Boolean visualizado) {
+        this.visualizado = visualizado;
+    }
 
-	public void setSorteio(Sorteio sorteio) {
-		this.sorteio = sorteio;
-	}
+    public Sorteio getSorteio() {
+        return sorteio;
+    }
 
-	@Override
-	public String toString() {
-		return this.eu.getNome() + " tirou " + this.meuAmigoSecreto.getNome();
-	}
+    public void setSorteio(Sorteio sorteio) {
+        this.sorteio = sorteio;
+    }
 
-	public Amigo getEu() {
-		return eu;
-	}
+    @Override
+    public String toString() {
+        return this.eu.getNome() + " tirou " + this.meuAmigoSecreto.getNome();
+    }
 
-	public void setEu(Amigo eu) {
-		this.eu = eu;
-	}
+    public Participante getEu() {
+        return eu;
+    }
 
-	public Amigo getMeuAmigoSecreto() {
-		return meuAmigoSecreto;
-	}
+    public void setEu(Participante eu) {
+        this.eu = eu;
+    }
 
-	public void setMeuAmigoSecreto(Amigo meuAmigoSecreto) {
-		this.meuAmigoSecreto = meuAmigoSecreto;
-	}
+    public Participante getMeuAmigoSecreto() {
+        return meuAmigoSecreto;
+    }
+
+    public void setMeuAmigoSecreto(Participante meuAmigoSecreto) {
+        this.meuAmigoSecreto = meuAmigoSecreto;
+    }
 
 }

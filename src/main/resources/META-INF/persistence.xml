@@ -6,16 +6,16 @@
 	<persistence-unit name="amigosecretoPU"
 		transaction-type="JTA">
 
-
 		<jta-data-source>java:jboss/datasources/amigosecreto</jta-data-source>
 
 		<class>br.com.capelli.secretsanta.modelo.Amigo</class>
-		<class>br.com.capelli.secretsanta.modelo.Grupo</class>
 		<class>br.com.capelli.secretsanta.modelo.Resultado</class>
 		<class>br.com.capelli.secretsanta.modelo.Sorteio</class>
 		<class>br.com.capelli.secretsanta.modelo.Usuario</class>
 		<class>br.com.capelli.secretsanta.modelo.Caracteristica</class>
-		
+		<class>br.com.capelli.secretsanta.modelo.Participante</class>
+		<class>br.com.capelli.secretsanta.modelo.RestricaoSorteio</class>
+
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>

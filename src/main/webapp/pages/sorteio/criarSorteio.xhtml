@@ -3,26 +3,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/template/template.xhtml">
 	<ui:define name="title">..:: Sorteio - SecretSanta </ui:define>
-	
+
 	<ui:define name="content">
-		<h:form>
-			<rich:panel id="panelSorteio">
-				<rich:messages ajaxRendered="true" globalOnly="true" />
-				
-				<h:panelGrid columns="1">
-					<h:outputText value="Sortear" />
-					<h:commandButton id="sorteio" value="Sortear" action="#{sorteioController.gerarSorteio()}" ></h:commandButton>
-				</h:panelGrid>
-				<rich:message for="sorteio" ajaxRendered="true" />
-			</rich:panel>
-			
-			<br />
-			
-		</h:form>
-		
+		<p:panel id="panelSorteio">
+
+			<h:panelGrid columns="1">
+				<h:outputText value="Sortear" />
+				<h:commandButton id="sorteio" value="Sortear"
+					action="#{sorteioController.gerarSorteio()}" />
+			</h:panelGrid>
+		</p:panel>
+
+		<br />
+
 	</ui:define>
 </ui:composition>

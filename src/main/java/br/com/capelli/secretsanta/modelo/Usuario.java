@@ -2,159 +2,121 @@ package br.com.capelli.secretsanta.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
-	private static final long serialVersionUID = -7490229892508490186L;
+    private static final long serialVersionUID = -7490229892508490186L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@Column(name = "login", unique = true)
-	private String login;
-	private String senha;
-	@Column(name = "nome")
-	private String nome;
-	@Column(name = "sobrenome")
-	private String sobrenome;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_nascimento")
-	private Date dataNascimento;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "ativo")
-	private Boolean ativo;
+    @Id
+    @Column(name = "email")
+    private String email;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(joinColumns = { @JoinColumn(name = "fk_id_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_id_grupo") }, name = "usuario_grupo")
-	private Set<Grupo> grupos;
+    private String senha;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
-	private Set<Sorteio> sorteios;
+    @Column(name = "nome")
+    private String nome;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
-	private Set<Amigo> amigos;
+    @Column(name = "sobrenome")
+    private String sobrenome;
 
-	public Usuario() {
-		this.ativo = Boolean.TRUE;
-	}
+    @Column(name = "ativo")
+    private Boolean ativo;
 
-	public String getLogin() {
-		return login;
-	}
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_usuario")
+    private TipoUsuario tipoUsuario = TipoUsuario.CLIENTE;
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<Sorteio> sorteios;
 
-	public String getNome() {
-		return nome;
-	}
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<Amigo> amigos;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public Usuario() {
+        this.ativo = Boolean.TRUE;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public Boolean getAtivo() {
-		return ativo;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Set<Grupo> getGrupos() {
-		return grupos;
-	}
+    public Boolean getAtivo() {
+        return ativo;
+    }
 
-	public void setGrupos(Set<Grupo> grupos) {
-		this.grupos = grupos;
-	}
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 
-	public String getSobrenome() {
-		return sobrenome;
-	}
+    public String getSobrenome() {
+        return sobrenome;
+    }
 
-	public void setSobrenome(String sobrenome) {
-		this.sobrenome = sobrenome;
-	}
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
 
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
+    public List<Sorteio> getSorteios() {
+        if (sorteios == null) {
+            sorteios = new ArrayList<>();
+        }
+        return sorteios;
+    }
 
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+    public void setSorteios(List<Sorteio> sorteios) {
+        this.sorteios = sorteios;
+    }
 
-	public Set<Sorteio> getSorteios() {
-		return sorteios;
-	}
+    public List<Amigo> getAmigos() {
+        if (amigos == null) {
+            amigos = new ArrayList<>();
+        }
+        return amigos;
+    }
 
-	public void setSorteios(Set<Sorteio> sorteios) {
-		this.sorteios = sorteios;
-	}
+    public void setAmigos(List<Amigo> amigos) {
+        this.amigos = amigos;
+    }
 
-	public Set<Amigo> getAmigos() {
-		if (amigos == null) {
-			amigos = new HashSet<Amigo>();
-		}
-		return amigos;
-	}
+    public String getSenha() {
+        return senha;
+    }
 
-	public List<Amigo> getAmigosList() {
-		List<Amigo> amigosList = new ArrayList<Amigo>();
-		amigosList.addAll(amigos);
-		return amigosList;
-	}
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
-	public void setAmigos(Set<Amigo> amigos) {
-		this.amigos = amigos;
-	}
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 
 }

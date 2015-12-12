@@ -12,107 +12,94 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
-import br.com.capelli.secretsanta.exception.ManagementException;
-import br.com.capelli.secretsanta.manager.AmigoManager;
-import br.com.capelli.secretsanta.manager.UsuarioManager;
+import br.com.capelli.secretsanta.exception.ServiceException;
 import br.com.capelli.secretsanta.modelo.Amigo;
 import br.com.capelli.secretsanta.modelo.Usuario;
+import br.com.capelli.secretsanta.service.AmigoService;
 import br.com.capelli.secretsanta.util.LoggedIn;
 
 @Named("amigoController")
 @SessionScoped
 public class AmigoController implements Serializable {
 
-	private static final long serialVersionUID = 6595523276504148955L;
-	private final Logger logger = Logger.getLogger("AmigoControllerLogger");
+    private static final long serialVersionUID = 6595523276504148955L;
+    private final Logger logger = Logger.getLogger("AmigoControllerLogger");
 
-	@Inject
-	@LoggedIn
-	private Usuario usuarioLogado;
-	@Inject
-	private AmigoManager amigoManager;
-	@Inject
-	private UsuarioManager usuarioManager;
-	private Boolean editMode = Boolean.FALSE;
+    @Inject
+    @LoggedIn
+    private Usuario usuarioLogado;
+    @Inject
+    private AmigoService amigoService;
 
-	private List<Amigo> amigos;
-	private Amigo amigoSelected;
-	private Usuario usuario;
+    private Boolean editMode = Boolean.FALSE;
 
-	public void doFilter() {
-		try {
-			usuario = usuarioManager.findById(usuarioLogado.getId());
-			amigos = amigoManager.findAmigosByUsuario(usuario);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			amigos = new ArrayList<Amigo>();
-		}
-	}
+    private List<Amigo> amigos;
+    private Amigo amigoSelected;
 
-	public String edit() {
-		setEditMode(Boolean.TRUE);
-		return "/pages/cadastro/editAmigo";
-	}
+    public void doFilter() {
+        try {
+            amigos = amigoService.findAmigosByUsuario(usuarioLogado);
+        } catch (Exception e) {
+            logger.error(e);
+            amigos = new ArrayList<Amigo>();
+        }
+    }
 
-	public String list() {
-		doFilter();
-		return "/pages/cadastro/listAmigo";
-	}
+    public String edit() {
+        setEditMode(Boolean.TRUE);
+        return "/pages/cadastro/editAmigo?faces-redirect=true";
+    }
 
-	public String novo() {
-		amigoSelected = new Amigo();
-		amigoSelected.setUsuario(usuario);
-		setEditMode(Boolean.FALSE);
-		return "/pages/cadastro/editAmigo";
+    public String list() {
+        doFilter();
+        return "/pages/cadastro/listAmigo?faces-redirect=true";
+    }
 
-	}
+    public String novo() {
+        amigoSelected = new Amigo();
+        amigoSelected.setUsuario(usuarioLogado);
+        setEditMode(Boolean.FALSE);
+        return "/pages/cadastro/editAmigo?faces-redirect=true";
 
-	public String save() {
-		try {
-			amigoManager.saveOrUpdade(amigoSelected);
-			return list();
+    }
 
-		} catch (ManagementException e) {
-			logger.error("Erro ao salvar a Amigo: " + e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Erro ao salvar a Amigo.", ""));
-		}
-		return null;
-	}
+    public String save() {
+        try {
+            amigoService.saveOrUpdade(amigoSelected);
+            return list();
 
-	public List<Amigo> getAmigos() {
-		doFilter();
-		return amigos;
-	}
+        } catch (ServiceException e) {
+            logger.error("Erro ao salvar a Amigo: " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Erro ao salvar a Amigo.", ""));
+        }
+        return null;
+    }
 
-	public void setAmigos(List<Amigo> amigos) {
-		this.amigos = amigos;
-	}
+    public List<Amigo> getAmigos() {
+        doFilter();
+        return amigos;
+    }
 
-	public Amigo getAmigoSelected() {
-		return amigoSelected;
-	}
+    public void setAmigos(List<Amigo> amigos) {
+        this.amigos = amigos;
+    }
 
-	public void setAmigoSelected(Amigo amigoSelected) {
-		this.amigoSelected = amigoSelected;
-	}
+    public Amigo getAmigoSelected() {
+        return amigoSelected;
+    }
 
-	public Boolean getEditMode() {
-		return editMode;
-	}
+    public void setAmigoSelected(Amigo amigoSelected) {
+        this.amigoSelected = amigoSelected;
+    }
 
-	public void setEditMode(Boolean editMode) {
-		this.editMode = editMode;
-	}
+    public Boolean getEditMode() {
+        return editMode;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public void setEditMode(Boolean editMode) {
+        this.editMode = editMode;
+    }
 
 }

@@ -10,11 +10,11 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
-import br.com.capelli.secretsanta.dao.ResultadoDAO;
-import br.com.capelli.secretsanta.exception.DAOException;
-import br.com.capelli.secretsanta.manager.SorteioManager;
 import br.com.capelli.secretsanta.modelo.Resultado;
+import br.com.capelli.secretsanta.modelo.Sorteio;
 import br.com.capelli.secretsanta.modelo.Usuario;
+import br.com.capelli.secretsanta.persistence.ResultadoRepository;
+import br.com.capelli.secretsanta.service.SorteioService;
 import br.com.capelli.secretsanta.util.LoggedIn;
 import br.com.capelli.secretsanta.util.Util;
 
@@ -22,122 +22,145 @@ import br.com.capelli.secretsanta.util.Util;
 @SessionScoped
 public class SorteioController implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(SorteioController.class);
+    private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(SorteioController.class);
 
-	private @Inject
-	SorteioManager sorteioManager;
-	private @Inject
-	ResultadoDAO resultadoDAO;
-	@Inject
-	@LoggedIn
-	private Usuario usuarioLogado;
+    @Inject
+    @LoggedIn
+    private Usuario usuarioLogado;
 
-	private Resultado resultado = null;
-	private String codigoPessoal = null;
-	private boolean next = Boolean.FALSE;;
+    @Inject
+    private SorteioService sorteioService;
+    @Inject
+    private ResultadoRepository resultadoRepository;
 
-	public void pesquisar() {
-		try {
-			String codigoLimpo = Util.retiraCaracteres(
-					codigoPessoal.replace(" ", "")).toLowerCase();
+    private Resultado resultado = null;
+    private String codigoPessoal = null;
+    private boolean next = Boolean.FALSE;
 
-			resultado = sorteioManager.obtemResultado(codigoLimpo);
-			if (resultado == null) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_ERROR,
-										"Nenhum resultado encontrado com esse código: "
-												+ codigoPessoal
-												+ ". Confirme se digitou corretamente.",
-										""));
-			} else if (resultado.getVisualizado()) {
+    private Sorteio sorteioSelected;
 
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_ERROR,
-										"Esse código pessoal já foi utilizado para visualizar o amigo secreto. Dúvidas procure o Bernardo Capelli.",
-										""));
+    public void pesquisar() {
+        try {
+            String codigoLimpo = Util
+                    .retiraCaracteres(codigoPessoal.replace(" ", ""))
+                    .toLowerCase();
 
-			} else {
-				next = Boolean.TRUE;
-			}
+            resultado = sorteioService.obtemResultado(codigoLimpo);
+            if (resultado == null) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Nenhum resultado encontrado com esse código: "
+                                        + codigoPessoal
+                                        + ". Confirme se digitou corretamente.",
+                                ""));
+            } else if (resultado.getVisualizado()) {
 
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Erro inesperado, tente mais tarde.", ""));
-		}
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Esse código pessoal já foi utilizado para visualizar o amigo secreto. Dúvidas procure o Bernardo Capelli.",
+                                ""));
 
-	}
+            } else {
+                next = Boolean.TRUE;
+            }
 
-	public void visualizado() {
-		try {
-			resultado.setVisualizado(Boolean.TRUE);
-			resultadoDAO.update(resultado);
-		} catch (DAOException e) {
-			logger.error("NAO ATUALIZOU O RESULTADO.", e);
-		}
-	}
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Erro inesperado, tente mais tarde.", ""));
+        }
 
-	public void limparCampos() {
-		codigoPessoal = null;
-		next = Boolean.FALSE;
-		resultado = null;
-	}
+    }
 
-	public void gerarSorteio() {
+    public void visualizado() {
+        try {
+            resultado.setVisualizado(Boolean.TRUE);
+            resultadoRepository.update(resultado);
+        } catch (Exception e) {
+            logger.error("NAO ATUALIZOU O RESULTADO.", e);
+        }
+    }
 
-		try {
+    public void limparCampos() {
+        codigoPessoal = null;
+        next = Boolean.FALSE;
+        resultado = null;
+    }
 
-			logger.info("INICIO SORTEIO: " + usuarioLogado.getLogin());
-			logger.info("Amigos vazio?: " + usuarioLogado.getAmigos().isEmpty());
+    public void configurarSorteio() {
 
-			sorteioManager.gerarSorteio(usuarioLogado.getLogin());
+        try {
+            logger.info(
+                    "Amigos vazio?: " + usuarioLogado.getAmigos().isEmpty());
 
-			FacesContext.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"SUCESSO.", ""));
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Erro ao gerar sorteio.", ""));
-		}
+            sorteioService.configurarSorteio(usuarioLogado);
 
-	}
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "SUCESSO.", ""));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Erro ao gerar sorteio.", ""));
+        }
 
-	public Resultado getResultado() {
-		return resultado;
-	}
+    }
 
-	public void setResultado(Resultado resultado) {
-		this.resultado = resultado;
-	}
+    public void sortear() {
 
-	public boolean isNext() {
-		return next;
-	}
+        try {
+            sorteioService.sorteando(usuarioLogado, sorteioSelected);
 
-	public void setNext(boolean next) {
-		this.next = next;
-	}
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "SUCESSO.", ""));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Erro ao gerar sorteio.", ""));
+        }
+    }
 
-	public String getCodigoPessoal() {
-		return codigoPessoal;
-	}
+    public void enviarEmail() {
 
-	public void setCodigoPessoal(String codigoPessoal) {
-		this.codigoPessoal = codigoPessoal;
-	}
+        try {
+            sorteioService.enviarEmail(usuarioLogado, sorteioSelected);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "SUCESSO.", ""));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Erro ao enviar email.", ""));
+        }
+    }
+
+    public Resultado getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(Resultado resultado) {
+        this.resultado = resultado;
+    }
+
+    public boolean isNext() {
+        return next;
+    }
+
+    public void setNext(boolean next) {
+        this.next = next;
+    }
+
+    public String getCodigoPessoal() {
+        return codigoPessoal;
+    }
+
+    public void setCodigoPessoal(String codigoPessoal) {
+        this.codigoPessoal = codigoPessoal;
+    }
+
+    public Sorteio getSorteioSelected() {
+        return sorteioSelected;
+    }
+
+    public void setSorteioSelected(Sorteio sorteioSelected) {
+        this.sorteioSelected = sorteioSelected;
+    }
 
 }

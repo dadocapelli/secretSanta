@@ -1,8 +1,8 @@
 package br.com.capelli.secretsanta.modelo;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -19,71 +19,101 @@ import javax.persistence.Table;
 @Table(name = "sorteio")
 public class Sorteio implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String nome;
-	private String descricao;
-	private String codigo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    private String descricao;
+    private String codigo;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_id_usuario")
-	private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name = "fk_id_usuario")
+    private Usuario usuario;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sorteio", fetch = FetchType.EAGER)
-	private Set<Resultado> resultados;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "fk_id_sorteio")
+    private List<Participante> participantes;
 
-	public Long getId() {
-		return id;
-	}
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "fk_id_sorteio")
+    private List<RestricaoSorteio> restricoes;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorteio", fetch = FetchType.EAGER)
+    private List<Resultado> resultados;
 
-	public String getNome() {
-		return nome;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getDescricao() {
-		return descricao;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public String getCodigo() {
-		return codigo;
-	}
+    public String getDescricao() {
+        return descricao;
+    }
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public String getCodigo() {
+        return codigo;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
-	public Set<Resultado> getResultados() {
-		if (resultados == null) {
-			resultados = new HashSet<Resultado>();
-		}
-		return resultados;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public void setResultados(Set<Resultado> resultados) {
-		this.resultados = resultados;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Resultado> getResultados() {
+        if (resultados == null) {
+            resultados = new ArrayList<>();
+        }
+        return resultados;
+    }
+
+    public void setResultados(List<Resultado> resultados) {
+        this.resultados = resultados;
+    }
+
+    public List<Participante> getParticipantes() {
+        if (participantes == null) {
+            participantes = new ArrayList<>();
+        }
+        return participantes;
+    }
+
+    public void setParticipantes(List<Participante> participantes) {
+        this.participantes = participantes;
+    }
+
+    public List<RestricaoSorteio> getRestricoes() {
+        if (restricoes == null) {
+            restricoes = new ArrayList<>();
+        }
+        return restricoes;
+    }
+
+    public void setRestricoes(List<RestricaoSorteio> restricoes) {
+        this.restricoes = restricoes;
+    }
 
 }

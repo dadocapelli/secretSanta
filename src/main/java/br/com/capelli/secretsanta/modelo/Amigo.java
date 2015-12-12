@@ -1,128 +1,129 @@
 package br.com.capelli.secretsanta.modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "amigo")
 public class Amigo implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String nome;
-	private String codigo;
-	@ManyToOne
-	@JoinColumn(name = "fk_id_usuario")
-	private Usuario usuario;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_caracteristica")
-	private Caracteristica caracteristica;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    private String codigo;
+    private String email;
+    private Boolean ativo = Boolean.TRUE;
 
-	@Transient
-	private List<Amigo> amigosProibidos;
+    @ManyToOne
+    @JoinColumn(name = "fk_id_usuario")
+    private Usuario usuario;
 
-	public Amigo() {
-		this.caracteristica = new Caracteristica();
-	}
+    @Embedded
+    private Caracteristica caracteristica;
 
-	public Long getId() {
-		return id;
-	}
+    public Amigo() {
+        this.caracteristica = new Caracteristica();
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((this.nome == null) ? 0 : this.nome.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((this.nome == null) ? 0 : this.nome.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-		Amigo other = (Amigo) obj;
-		if (getId() == null) {
-			if (other.getId() != null)
-				return false;
-		} else if (!getId().equals(other.getId()))
-			return false;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
 
-		return true;
-	}
+        Amigo other = (Amigo) obj;
+        if (getId() == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!getId().equals(other.getId()))
+            return false;
 
-	@Override
-	public String toString() {
-		return this.nome;
-	}
+        return true;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public String getCodigo() {
-		return codigo;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
+    public String getCodigo() {
+        return codigo;
+    }
 
-	public Caracteristica getCaracteristica() {
-		return caracteristica;
-	}
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
-	public void setCaracteristica(Caracteristica caracteristica) {
-		this.caracteristica = caracteristica;
-	}
+    public Caracteristica getCaracteristica() {
+        return caracteristica;
+    }
 
-	public List<Amigo> getAmigosProibidos() {
-		if (amigosProibidos == null) {
-			amigosProibidos = new ArrayList<Amigo>();
-		}
-		return amigosProibidos;
-	}
+    public void setCaracteristica(Caracteristica caracteristica) {
+        this.caracteristica = caracteristica;
+    }
 
-	public void setAmigosProibidos(List<Amigo> amigosProibidos) {
-		this.amigosProibidos = amigosProibidos;
-	}
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 
 }
